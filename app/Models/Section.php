@@ -12,7 +12,7 @@ class Section extends Model
     protected $table='section';
     protected $fillable = [
         'admin_id',
-        'address_id',
+        'name',
         'time_opened',
         'time_closed'
     ];
@@ -45,6 +45,11 @@ class Section extends Model
     public function ship_goods_request()
     {
         return $this->hasMany(Ship_Goods_Request::class, 'section_id');
+    }
+
+    public function ship_goods_requestt()
+    {
+        return $this->hasMany(Ship_Goods_Request::class, 'section_end_id');
     }
 
     public function trips()

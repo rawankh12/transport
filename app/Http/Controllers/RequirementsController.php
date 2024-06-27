@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Requirements;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class RequirementsController extends Controller
@@ -48,7 +49,7 @@ class RequirementsController extends Controller
 
         $Requirements= Requirements::create([
 
-            'user_id' => $request->user_id,
+            'user_id' => Auth::user()->id,
             'section_id'  => $request->section_id,
             'photo_of_univercity_degree'  => $path,
             'driving_licence'  => $path1,

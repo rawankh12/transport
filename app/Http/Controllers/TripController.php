@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
+use App\Models\Reservation;
+use App\Models\Section;
 use App\Models\Trips;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class TripController extends Controller
@@ -13,15 +18,15 @@ class TripController extends Controller
     public function index_t()
     {
     $type = Type::all();
-    return response()->json(['Reservation' => $type]);
+    return response()->json(['type' => $type]);
     }
       /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $Trips = Trips::all();
-        return response()->json(["Trips"=>$Trips]);
+        $Trips = Trips::where('type_id' , 2)->get();
+        return response()->json(['Trips' => $Trips]);
     }
 
     /**
@@ -59,10 +64,17 @@ class TripController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function trip_res()
     {
-        //
+        $res = Reservation::where('user_id' , Auth::user()->id)->get('trip_id');
+        $trip = Trips::whereIn('id' , $res)->get();
+        return response()->json([
+            $trip
+        ]);
+
     }
+
+
 
     /**
      * Display the specified resource.
@@ -119,4 +131,53 @@ class TripController extends Controller
             'msg' => 'deleted succesfully'
         ]);
     }
+
+    public function searchbytime(Request $request)
+    {
+        $search = $request->time;
+        $time = DB::table('trips')->where('time' , 'LIKE' , '%'.$search.'%')->get();
+        return response()->json([$time]);
+    }
+
+
+    public function searchbydate(Request $request)
+    {
+        $search = $request->date;
+        $date = DB::table('trips')->whereDate('date' , 'LIKE' , '%'.$search.'%')->get();
+        return response()->json([$date]);
+    }
+
+    public function searchbysection(Request $request)
+    {
+
+        $address = DB::table('address')->where('name' , $request->name)->value('id');
+        $section = DB::table('section')->where('address_id',$address)->value('id');
+        $search = $section;
+        $se = DB::table('trips')->where('section_id' , 'LIKE' , '%'.$search.'%')->get();
+
+
+        $searc = $request->name;
+        $trip = DB::table('trips')->where('section_end' , 'LIKE' , '%'.$searc.'%')->get();
+
+        return response()->json([$se , $trip]);
+    }
+
+    // public function searchbysectionandtype(Request $request)
+    // {
+    //     // $search = $request->date;
+    //     // $date = DB::table('trips')->whereDate('date' , 'LIKE' , '%'.$search.'%')->get();
+    //     // return response()->json([$date]);
+
+    //     $address = DB::table('address')->where('name' , $request->name)
+    //     ->join('section','address.id','section.address_id')->value('section.id');
+    //     $address = DB::table('trips')->where('section_id' , $address)->get();
+    //     $address = DB::table('type')->where('name' , $request->name)
+    //     ->join('trips','ad.id','section.address_id')->value('section.id');
+    //     $search = $request->name;
+    //     $trip = DB::table('trips')->where('section_end' , 'LIKE' , '%'.$search.'%')->get();
+
+    //     return response()->json([$address , $trip]);
+    // }
+
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transporting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class TransportingController extends Controller
@@ -35,7 +36,7 @@ class TransportingController extends Controller
             'type_tra_id' => $request->type_tra_id,
             'capacity' => $request->capacity,
             'number' => $request->number,
-            'admin_id' => $request->admin_id
+            'admin_id' => Auth::user()->id
         ]);
 
       return response()->json([

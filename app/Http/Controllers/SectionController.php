@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Section;
+use Database\Seeders\SectionSeeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class SectionController extends Controller
@@ -26,21 +29,27 @@ class SectionController extends Controller
      */
     public function create(Request $request)
     {
+
+
         $validate = Validator::make($request->all(),
         [
           'time_opened' => 'required',
-          'time_closed'=> 'required'
+          'time_closed'=> 'required',
+          'name' => 'required'
         ]);
         if($validate->fails()){
             return response()->json($validate->errors(),400);
         }
+
+
         $scetion= Section::create([
 
-            'address_id' => $request->address_id,
+            'name' => $request->name,
             'time_opened' => $request->time_opened,
             'time_closed' => $request->time_closed,
-            'admin_id' => $request->admin_id
+            'admin_id' => Auth::user()->id
         ]);
+
 
       return response()->json([
         'status'=>true,
@@ -51,10 +60,24 @@ class SectionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function create_se(Request $request)
+    // {
+    //     $validate = Validator::make($request->all(),
+    //     [
+    //       'time_opened' => 'required',
+    //       'time_closed'=> 'required',
+    //       'name' => 'required'
+    //     ]);
+    //     if($validate->fails()){
+    //         return response()->json($validate->errors(),400);
+    //     }
+
+
+    //     SectionSeeder::sed($request->name , $request->time_opened , $request->time_closed ,Auth::user()->id);;
+
+
+
+    // }
 
     /**
      * Display the specified resource.
@@ -82,6 +105,7 @@ class SectionController extends Controller
     {
         $section = Section::find($request->id);
 
+        $section->name = $request->name;
         $section->time_opened = $request->time_opened;
         $section->time_closed = $request->time_closed;
         $section->save();

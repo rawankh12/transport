@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Complaint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ComplaintController extends Controller
@@ -31,7 +32,7 @@ class ComplaintController extends Controller
         }
         $Complaint= Complaint::create([
 
-            'user_id' => $request->user->id,
+            'user_id' => Auth::user()->id,
             'trip_id' => $request->trip_id,
             'description' => $request->description
         ]);
