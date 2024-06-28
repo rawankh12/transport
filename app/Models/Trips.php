@@ -36,10 +36,10 @@ class Trips extends Model
         return $this->hasMany(Reservation::class, 'trip_id');
     }
 
-    public function ship_goods_request()
-    {
-        return $this->hasMany(Ship_Goods_Request::class, 'trip_id');
-    }
+    // public function ship_goods_request()
+    // {
+    //     return $this->hasMany(Ship_Goods_Request::class, 'trip_id');
+    // }
 
     public function trip_request()
     {

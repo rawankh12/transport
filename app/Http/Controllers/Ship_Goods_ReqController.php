@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Ship_Goods_Request;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class Ship_Goods_ReqController extends Controller
@@ -28,7 +30,7 @@ class Ship_Goods_ReqController extends Controller
     {
         $validate = Validator::make($request->all(),
         [
-            'image_goods' => 'required',
+            'weight' => 'required',
             'quantity' => 'required',
             'description' => 'required'
         ]);
@@ -37,10 +39,10 @@ class Ship_Goods_ReqController extends Controller
         }
         $Ship_Goods= Ship_Goods_Request::create([
 
-            'user_id' => $request->user->id,
-            'trip_id' => $request->trip_id,
+            'user_id' => Auth::user()->id,
+            'section_end_id' => $request->section_end_id,
             'section_id' => $request->section_id,
-            'image_goods' => $request->image_goods,
+            'weight' => $request->weight,
             'quantity' => $request->quantity,
             'description' => $request->description
         ]);
@@ -64,7 +66,8 @@ class Ship_Goods_ReqController extends Controller
      */
     public function show(Request $request)
     {
-        $Ship_Goods = Ship_Goods_Request::where('id' , $request->id)->get();
+        //$Ship_Goods = Ship_Goods_Request::where('id' , $request->id)->get();
+        $Ship_Goods = DB::table('ship_goods_request')->where('id',$request->id)->get();
         return response()->json([
             $Ship_Goods
         ]);
@@ -85,9 +88,9 @@ class Ship_Goods_ReqController extends Controller
     {
         $Ship_Goods = Ship_Goods_Request::find($request->id);
 
-        $Ship_Goods->image_goods = $request->image_goods;
+        $Ship_Goods->weight = $request->weight;
         $Ship_Goods->quantity = $request->quantity;
-        $Ship_Goods->quantity = $request->description;
+        $Ship_Goods->description = $request->description;
         $Ship_Goods->save();
         return response()->json([$Ship_Goods]);
     }

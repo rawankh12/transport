@@ -14,8 +14,6 @@ class Trip_Request extends Model
         'user_id',
         'trip_id',
         'start_point',
-        'num_transport',
-        'description'
     ];
 
     /**

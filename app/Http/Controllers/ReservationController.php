@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use App\Models\Trips;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ReservationController extends Controller
@@ -45,7 +46,7 @@ class ReservationController extends Controller
 
         $Reservation= Reservation::create([
 
-            'user_id' => $request->user_id,
+            'user_id' => Auth::user()->id,
             'trip_id'=> $request->trip_id,
             'image_identity' => $path,
             'pay' => $request->pay,

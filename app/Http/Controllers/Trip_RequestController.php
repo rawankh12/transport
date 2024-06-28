@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\TripController;
 use App\Models\Trips;
+use Illuminate\Support\Facades\Auth;
 
 class Trip_RequestController extends Controller
 {
@@ -27,8 +28,6 @@ class Trip_RequestController extends Controller
         $validate = Validator::make($request->all(),
         [
             'start_point' => 'required',
-            'num_transport' => "required",
-            'description' => 'required'
         ]);
         if($validate->fails()){
             return response()->json($validate->errors(),400);
@@ -42,17 +41,15 @@ class Trip_RequestController extends Controller
             'section_end' => $request->section_end,
             'date' => $request->date,
             'time' => $request->time,
-            'price' => $request->price,
             'num_seat' => $request->num_seat
         ]);
 
         $Trip_Request= Trip_Request::insert([
 
-            'user_id' => $request->user_id,
+            'user_id' => Auth::user()->id,
             'trip_id' => $Trips->id,
             'start_point' => $request->start_point,
-            'num_transport' => $request->num_transport,
-            'description' => $request->description
+
         ]);
 
 
@@ -94,9 +91,10 @@ class Trip_RequestController extends Controller
             }
               elseif($request->accept == 0)
               {
-                //$Trip_Request = Trip_Request::orderBy('id', 'desc')->take(1)->first();
+                $Trip_Request = Trip_Request::orderBy('id', 'desc')->take(1)->first();
                 $Trips = Trips::orderBy('id' , 'desc')->take(1)->first();
                 $Trips->delete();
+                $Trip_Request->delete();
                 return response()->json(['not accept']);
 
               }

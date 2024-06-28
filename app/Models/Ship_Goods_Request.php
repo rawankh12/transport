@@ -9,12 +9,12 @@ class Ship_Goods_Request extends Model
 {
     use HasFactory;
 
-    protected $table='ship_goods-request';
+    protected $table='ship_goods_request';
     protected $fillable = [
         'user_id',
-        'trip_id',
+        'section_end_id',
         'section_id',
-        'image_goods',
+        'weight',
         'quantity',
         'description'
     ];
@@ -34,9 +34,9 @@ class Ship_Goods_Request extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function trip()
+    public function sec_end()
     {
-        return $this->belongsTo(Trips::class, 'trip_id');
+        return $this->belongsTo(Section::class, 'section_end_id');
     }
 
     public function section()

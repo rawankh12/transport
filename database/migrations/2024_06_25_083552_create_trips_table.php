@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigInteger('transport_id')->unsigned();
             $table->bigInteger('type_id')->unsigned();
             $table->string('section_end');
-            $table->dateTime('date');
+            $table->date('date');
             $table->time('time');
             $table->bigInteger('num_seat');
             $table->timestamps();

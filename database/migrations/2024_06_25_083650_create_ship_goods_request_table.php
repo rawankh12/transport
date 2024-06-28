@@ -14,14 +14,16 @@ return new class extends Migration
         Schema::create('ship_goods_request', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('trip_id')->unsigned();
+          //  $table->bigInteger('trip_id')->unsigned();
             $table->bigInteger('section_id')->unsigned();
-            $table->string('image_goods');
+            $table->bigInteger('section_end_id')->unsigned();
+            $table->bigInteger('weight');
             $table->integer('quantity');
             $table->text('description');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('trip_id')->references('id')->on('trips')->onDelete('cascade')->onUpdate('cascade');
+          //  $table->foreign('trip_id')->references('id')->on('trips')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('section_id')->references('id')->on('section')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('section_end_id')->references('id')->on('section')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
