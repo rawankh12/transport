@@ -16,10 +16,10 @@ class SectionSeeder extends Seeder
     public function run(): void
     {
 
-        Section::create(['admin_id'=>1,'name'=>'لاذقية','time_opened'=>'00:00:00','time_closed'=>'12:00:00', 'id'=> 1]);
-        Section::create(['admin_id'=>1,'name'=>'الشام' ,'time_opened'=>'00:00:00','time_closed'=>'12:00:00','id'=> 2]);
-        Section::create(['admin_id'=>1,'name'=>'سويداء' ,'time_opened'=>'00:00:00','time_closed'=>'12:00:00','id'=> 3]);
-        Section::create(['admin_id'=>1,'name'=>'طرطوس' ,'time_opened'=>'00:00:00','time_closed'=>'12:00:00', 'id'=> 4]);
+        Section::create(['admin_id'=>2,'address_id'=>'1','time_opened'=>'00:00:00','time_closed'=>'12:00:00', 'id'=> 1]);
+        Section::create(['admin_id'=>3,'address_id'=>'2' ,'time_opened'=>'00:00:00','time_closed'=>'12:00:00','id'=> 2]);
+        Section::create(['admin_id'=>4,'address_id'=>'3' ,'time_opened'=>'00:00:00','time_closed'=>'12:00:00','id'=> 3]);
+        Section::create(['admin_id'=>5,'address_id'=>'4' ,'time_opened'=>'00:00:00','time_closed'=>'12:00:00', 'id'=> 4]);
 
 
     }

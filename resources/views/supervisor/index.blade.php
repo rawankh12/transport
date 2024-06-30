@@ -1,4 +1,4 @@
-@extends('layouts.sidebar')
+@extends('layouts.app')
 @section('title', 'Supervisors')
 @section('content')
     <div class="container mt-5 main">
@@ -44,47 +44,11 @@
         </div>
     </div>
 
-    <!-- Floating Button for adding new supervisor -->
-    <button class="btn-add-supervisor" data-bs-toggle="modal" data-bs-target="#addSupervisorModal">
+     <!-- Floating Button for adding new supervisor -->
+     <a href="{{ route('supervisors.create') }}" class="btn-add-supervisor">
         <i class="bi bi-plus" style="color: black"></i>
-    </button>
-
-    <!-- Modal لإضافة مشرف جديد -->
-    <div class="modal fade"  id="addSupervisorModal" tabindex="-1" aria-labelledby="addSupervisorModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" style=" background: linear-gradient(135deg, #f0f8ff, #e6e6fa, #dcdcdc);">
-                <div class="modal-header" >
-                    <button type="button" class="btn-close move-right" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('supervisors.store') }}" method="POST">
-                        @csrf
-                        <div class="mb-3 text-center">
-                            <label for="name" class="form-label">الاسم الكامل</label>
-                            <input type="text" class="form-control text-center mx-auto" id="name" name="name" required>
-                        </div>
-                        <div class="mb-3 text-center">
-                            <label for="email" class="form-label">الايميل</label>
-                            <input type="text" class="form-control text-center mx-auto" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3 text-center">
-                            <label for="password" class="form-label">باسوورد</label>
-                            <input type="text" class="form-control text-center mx-auto" id="password" name="password" required>
-                        </div>
-                        <div class="mb-3 text-center">
-                            <label for="phone" class="form-label">رقم الهاتف</label>
-                            <input type="text" class="form-control text-center mx-auto" id="phone" name="phone" required>
-                        </div>
-                        <div class="mt-4 d-flex justify-content-center">
-                        <button type="submit" class="btn me-3 px-4" style="color: black" >إضافة</button>
-                        </div>
-                    </form>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-
+    </a>
+    
   <!-- Modal لحذف المشرف -->
 <div class="modal fade" id="deleteSupervisorModal" tabindex="-1" aria-labelledby="deleteSupervisorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

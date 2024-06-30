@@ -1,4 +1,4 @@
-@extends('layouts.sidebar')
+@extends('layouts.app')
 
 @section('title', 'Branches')
 
@@ -14,13 +14,25 @@
                 <div class="col-md-4 col-12 mb-4">
                     <div class="card position-relative">
                         <div class="card-body">
-                            <p class="card-text"><strong>الفرع:</strong> {{ $section->address->name }}</p>
-                            <p class="card-text"><strong>مدير الفرع:</strong> {{ $section->admin->name }}</p>
-                            <p class="card-text"><strong>وقت العمل :</strong> {{ $section->time_opened }}</p>
-                            <p class="card-text"><strong>وقت الإغلاق :</strong> {{ $section->time_closed }}</p>
-                            <button type="button" class="btn mt-3" data-bs-toggle="modal" data-bs-target="#deleteBranchModal" data-id="{{ $section->id }}" data-name="{{ $section->name }}">
+                            {{-- <img src="{{ asset('images/Group(2).png') }}" class="supervisor-image"> --}}
+                            <div class="supervisor-info-box">
+                            <p class="card-text"><strong>مدير الفرع :</strong> {{ $section->user->name }}</p></div>
+                            <div class="supervisor-info-box">
+                            <p class="card-text"><strong>الفرع :</strong> {{ $section->address->name }}</p></div>
+                            <div class="supervisor-info-box">
+                            <p class="card-text"><strong>وقت العمل :</strong> {{ $section->time_opened }}</p></div>
+                            <div class="supervisor-info-box">
+                            <p class="card-text"><strong>وقت الإغلاق :</strong> {{ $section->time_closed }}</p></div>
+                            <div class="mt-4 d-flex justify-content-center">
+                                <button type="button" class="btn edit-button me-2" data-bs-toggle="modal" data-bs-target="#editSupervisorModal"
+                                data-id="{{ $section->id }}" data-name="{{ $section->name }}">
+                                <i class="bi bi-pencil"></i> 
+                            </button>
+                            <button type="button" class="btn delete-button" style="margin-top: -34px" data-bs-toggle="modal" data-bs-target="#deleteSupervisorModal"
+                                data-id="{{ $section->id }}" data-name="{{ $section->name }}">
                                 <i class="bi bi-trash"></i>
                             </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -60,13 +72,17 @@
         </div>
     </div>
 
-    <form action="{{ route('sections.update', ['section' => $section]) }}" method="POST">
+    {{-- <form action="{{ route('sections.update', ['section' => $section->id]) }}" method="POST">
         @csrf
-        @method('Post')
-    
-        <input type="text" name="name" value="{{ $section->name }}" required>
-        <!-- أضف حقول أخرى كما هو مطلوب -->
+        @method('PUT')
+        
+        <!-- الحقول المطلوبة للنموذج -->
+        <input type="text" name="time_opened" value="{{ $section->time_opened }}" required>
+        <input type="text" name="time_closed" value="{{ $section->time_closed }}" required>
+        <!-- باقي الحقول -->
     
         <button type="submit">حفظ التعديلات</button>
-    </form>
+    </form> --}}
+
+    <script src="/js/script.js"></script>
 @endsection

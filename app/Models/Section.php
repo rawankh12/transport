@@ -12,7 +12,7 @@ class Section extends Model
     protected $table='section';
     protected $fillable = [
         'admin_id',
-        'name',
+        'address_id',
         'time_opened',
         'time_closed'
     ];

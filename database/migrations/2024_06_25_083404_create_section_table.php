@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('section', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('admin_id')->unsigned();
-           // $table->bigInteger('address_id')->unsigned();
-            $table->string('name');
+           $table->bigInteger('address_id')->unsigned();
+            // $table->string('name');
             $table->time('time_opened');
             $table->time('time_closed');
             $table->foreign('admin_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-          //  $table->foreign('address_id')->references('id')->on('address')->onDelete('cascade')->onUpdate('cascade');
+           $table->foreign('address_id')->references('id')->on('address')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

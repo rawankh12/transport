@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html lang="ar">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard')</title>
-    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/app.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-</head>
-<body>
-    
-    @include('layouts.header')
-    <div class="wrapper">
         <aside id="sidebar">
             <div class="d-flex">
                 <button id="toggle-btn" type="button">
@@ -37,6 +20,14 @@
                         <i class="lni lni-users"></i>
                         <span>المشرفين</span>
                     </a>
+                    <ul class="sidebar-submenu">
+                        <li class="sidebar-item">
+                            <a href="{{ route('supervisors.create') }}" class="sidebar-link {{ request()->routeIs('supervisors.create') ? 'active' : '' }}">
+                                {{-- <i class="lni lni-plus" ></i> --}}
+                                <span>اضافة مشرف</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="sidebar-item">
                     <a href="{{ route('sections.index') }}" class="sidebar-link {{ request()->routeIs('sections.*') ? 'active' : '' }}">
@@ -45,15 +36,9 @@
                     </a>
                     <ul class="sidebar-submenu">
                         <li class="sidebar-item">
-                            <a href="{{ route('sections.store') }}" class="sidebar-link {{ request()->routeIs('sections.create') ? 'active' : '' }}">
-                                <i class="lni lni-plus"></i>
+                            <a href="{{ route('sections.create') }}" class="sidebar-link {{ request()->routeIs('sections.create') ? 'active' : '' }}">
+                                {{-- <i class="lni lni-plus" ></i> --}}
                                 <span>اضافة فرع</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="{{ route('sections.edit', ['section' => $section->id]) }}" class="sidebar-link {{ request()->routeIs('sections.edit') ? 'active' : '' }}">
-                                <i class="lni lni-pencil"></i>
-                                <span>تعديل على الفرع</span>
                             </a>
                         </li>
                     </ul>
@@ -116,23 +101,3 @@
                 </a>
             </div>
         </aside>
-        <div class="content p-4">
-            @yield('content')
-        </div>
-    </div>
-
-    @include('layouts.footer')
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-            crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-gradient@latest/dist/chartjs-plugin-gradient.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-            {{-- <script src="{{ asset('js/deleteSupervisor.js') }}"></script> --}}
-    <script src="/js/script.js"></script>
-    <script src="/js/app.js"></script>
-</body>
-</html>

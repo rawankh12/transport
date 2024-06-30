@@ -15,7 +15,7 @@ class SectionController extends Controller
     public function index()
     { 
       
-      $sections = Section::with(['address', 'admin'])->get();
+      $sections = Section::with(['address', 'user'])->get();
       return view('supervisor.branches', compact('sections'));
 
     }

@@ -30,7 +30,7 @@ class SupervisorController extends Controller
 
     public function create()
     {
-        return view('admin.supervisors.create');
+        return view('supervisor.createsupervisor');
     }
 
     public function store(Request $request)
