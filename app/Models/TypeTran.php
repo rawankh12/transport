@@ -11,7 +11,7 @@ class TypeTran extends Model
 
     protected $table='type_transporting';
     protected $fillable = [
-        'name',
+        'name_t',
     ];
 
     /**

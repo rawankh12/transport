@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transporting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class TransportingController extends Controller
@@ -14,7 +15,12 @@ class TransportingController extends Controller
      */
     public function index()
     {
-        $Transporting = Transporting::all();
+        // $Transporting = Transporting::all();
+        // return response()->json(["Transporting"=>$Transporting]);
+
+        $Transporting = DB::table('transporting')
+        ->join('type_transporting' , 'type_transporting.id' , 'transporting.type_tra_id')
+        ->get(['number' , 'capacity' , 'type_transporting.name_t' ]);
         return response()->json(["Transporting"=>$Transporting]);
     }
 
@@ -58,10 +64,10 @@ class TransportingController extends Controller
      */
     public function show(Request $request)
     {
-        $Transporting = Transporting::where('id' , $request->id)->get();
-        return response()->json([
-            $Transporting
-        ]);
+        $Transporting = DB::table('transporting')->where('transporting.id' , $request->id)
+        ->join('type_transporting' , 'type_transporting.id' , 'transporting.type_tra_id')
+        ->get(['number' , 'capacity' , 'type_transporting.name_t' ]);
+        return response()->json(["Transporting" => $Transporting]);
     }
 
     /**

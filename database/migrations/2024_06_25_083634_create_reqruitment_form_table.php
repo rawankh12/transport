@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('photo_of_univercity_degree');
             $table->string('driving_licence');
             $table->text('description');
+            $table->string('place');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('section_id')->references('id')->on('section')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

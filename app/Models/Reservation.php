@@ -14,7 +14,6 @@ class Reservation extends Model
         'user_id',
         'trip_id',
         'image_identity',
-        'pay',
         'attachments',
     ];
 

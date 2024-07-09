@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(TypeSeeder::class);
-        $this->call(AddressSeeder::class);
         $this->call(SectionSeeder::class);
         $this->call(TransportSeeder::class);
     }

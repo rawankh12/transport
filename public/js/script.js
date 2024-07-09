@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const profileBtn = document.getElementById('profile-btn');
     const themeToggleBtn = document.getElementById('mode-toggle');
     const themeIcon = themeToggleBtn.querySelector('i'); // الحصول على الأيقونة داخل زر تغيير الوضع
     const body = document.body;
@@ -8,28 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const header = document.querySelector('.header');
     const main = document.querySelector('.main');
     const footer = document.querySelector('.footer');
-    const deleteSupervisorModal = document.getElementById('deleteSupervisorModal');
-    const supervisorNameSpan = document.getElementById('supervisor-name');
-    const supervisorIdInput = document.getElementById('supervisor-id');
-    const deleteSupervisorForm = document.getElementById('deleteSupervisorForm');
-
-    // الانتقال إلى صفحة البروفايل
-    profileBtn.addEventListener('click', function() {
-        window.location.href = '/profile'; // تأكد من أن هذا هو المسار الصحيح لصفحة البروفايل
-    });
-
-    // إعداد نموذج حذف المشرف
-    deleteSupervisorModal.addEventListener('show.bs.modal', function(event) {
-        const button = event.relatedTarget;
-        const supervisorId = button.getAttribute('data-id');
-        const supervisorName = button.getAttribute('data-name');
-
-        supervisorNameSpan.textContent = supervisorName;
-        supervisorIdInput.value = supervisorId;
-        
-        // Update the form action URL
-        deleteSupervisorForm.action = deleteSupervisorForm.action.replace(/\/0$/, `/${supervisorId}`);
-    });
 
     // تغيير الوضع من الضوء إلى الظلام والعكس
     themeToggleBtn.addEventListener('click', function() {
@@ -81,4 +58,11 @@ document.addEventListener('DOMContentLoaded', function() {
         main.classList.toggle('expand');
         footer.classList.toggle('expand');
     });
+    // Toggle sidebar
+    // deleteSupervisorModal.addEventListener('show.bs.modal', function(event) {
+    //     const button = event.relatedTarget;
+    //     const supervisorId = button.getAttribute('data-id');
+    //     const form = document.getElementById('deleteSupervisorForm');
+    //     form.action = `/supervisors/${supervisorId}`;
+    // });
 });

@@ -14,8 +14,8 @@ class TransportSeeder extends Seeder
      */
     public function run(): void
     {
-        TypeTran::create(['name'=>'باص' , 'id'=> 1]);
-        TypeTran::create(['name'=>'بولمن' , 'id' =>2]);
-        TypeTran::create(['name'=>'سرفيس' , 'id' =>3]);
+        TypeTran::create(['name_t'=>'باص' , 'id'=> 1]);
+        TypeTran::create(['name_t'=>'بولمن' , 'id' =>2]);
+        TypeTran::create(['name_t'=>'سرفيس' , 'id' =>3]);
     }
 }

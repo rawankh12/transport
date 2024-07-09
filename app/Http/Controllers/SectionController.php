@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Section;
+use App\Models\Walet_section;
 use Database\Seeders\SectionSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,6 @@ class SectionController extends Controller
         [
           'time_opened' => 'required',
           'time_closed'=> 'required',
-          'name' => 'required'
         ]);
         if($validate->fails()){
             return response()->json($validate->errors(),400);
@@ -44,10 +44,15 @@ class SectionController extends Controller
 
         $scetion= Section::create([
 
-            'name' => $request->name,
+            'address_id' => $request->address_id,
             'time_opened' => $request->time_opened,
             'time_closed' => $request->time_closed,
             'admin_id' => Auth::user()->id
+        ]);
+
+        Walet_section::insert([
+            'amount' => 0,
+            'section_id' => $scetion->id
         ]);
 
 
@@ -105,10 +110,10 @@ class SectionController extends Controller
     {
         $section = Section::find($request->id);
 
-        $section->name = $request->name;
         $section->time_opened = $request->time_opened;
         $section->time_closed = $request->time_closed;
         $section->save();
+
         return response()->json([$section]);
     }
 

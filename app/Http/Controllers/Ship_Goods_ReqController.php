@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Section;
 use App\Models\Ship_Goods_Request;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +20,13 @@ class Ship_Goods_ReqController extends Controller
      */
     public function index()
     {
-        $Ship_Goods = Ship_Goods_Request::all();
-        return response()->json(["Ship_Goods"=>$Ship_Goods]);
+
+        $Ship_Goods = DB::table('ship_goods_request')
+        ->join('users', 'users.id','ship_goods_request.user_id')
+        ->join('section' , 'section.id' , 'ship_goods_request.section_id')->
+        join('address' , 'address.id' , 'section.address_id')
+        ->get(['weight' , 'quantity' , 'description' , 'email' , 'phone' ,'users.name' , 'address.name' ]);
+        return response()->json(["ship_goods_request"=>$Ship_Goods]);
     }
 
     /**
@@ -67,23 +73,13 @@ class Ship_Goods_ReqController extends Controller
     public function show(Request $request)
     {
         //$Ship_Goods = Ship_Goods_Request::where('id' , $request->id)->get();
-        $Ship_Goods = DB::table('ship_goods_request')->where('id',$request->id)->get();
+        $Ship_Goods = DB::table('ship_goods_request')->where('id',$request->id)->get(['weight','quantity','description']);
         return response()->json([
             $Ship_Goods
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request)
     {
         $Ship_Goods = Ship_Goods_Request::find($request->id);

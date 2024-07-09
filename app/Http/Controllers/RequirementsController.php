@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Requirements;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class RequirementsController extends Controller
@@ -12,21 +14,26 @@ class RequirementsController extends Controller
 
     public function index()
     {
-        $Requirements = Requirements::all();
-        return response()->json(["Requirements"=>$Requirements]);
+        $Requirements = DB::table('reqruitment_form')->
+        join('users' , 'users.id' , 'reqruitment_form.user_id')->
+       get(['users.name' ]);
+        return response()->json(['Requirements' => $Requirements]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create(Request $request)
     {
+
+        $user = User::where('user_id' , Auth::user()->id)->value('id');
+        if($user == 0)
+        {
         $validate = Validator::make($request->all(),
         [
             'photo_of_univercity_degree'=>'required',
             'driving_licence'=> 'required',
             'description'=>'required',
-            'cv'=>'required'
+            'cv'=>'required',
+            'place' => 'required'
         ]);
         if($validate->fails()){
             return response()->json($validate->errors(),400);
@@ -47,6 +54,14 @@ class RequirementsController extends Controller
         $cv->move(public_path('upload') , $newImage1);
         $path2 = "public/upload/$newImage1";
 
+        if($request->place == 1)
+        {
+            $place = 'الشركة';
+        }
+        else{
+            $place = 'الفرع';
+        }
+
         $Requirements= Requirements::create([
 
             'user_id' => Auth::user()->id,
@@ -54,32 +69,28 @@ class RequirementsController extends Controller
             'photo_of_univercity_degree'  => $path,
             'driving_licence'  => $path1,
             'description'  => $request->description,
-            'cv'  => $path2
+            'cv'  => $path2,
+            'place' => $place
         ]);
 
       return response()->json([
         'status'=>  true,
         'section'=>  $Requirements
       ]);
+    }else{
+
+        return response()->json(['you are already send your cv ']);
+    }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Request $request)
     {
-        $scetion = Requirements::where('id' , $request->id)->get();
-        return response()->json([
-            $scetion
-        ]);
+        $Requirements = DB::table('reqruitment_form')->where('reqruitment_form.id' , $request->id)->
+        join('users' , 'users.id' , 'reqruitment_form.user_id')->
+        join('section' , 'section.id' , 'reqruitment_form.section_id')->
+        join('address' , 'address.id' , 'section.address_id')->
+       get(['photo_of_univercity_degree' , 'driving_licence' , 'description' , 'cv' ,'users.name', 'phone' ,'address.name' ,'place', ]);
+        return response()->json(['Requirements' => $Requirements]);
     }
 
     /**
@@ -116,6 +127,7 @@ class RequirementsController extends Controller
             $Requirements->driving_licence  = $path1;
             $Requirements->description  = $request->description;
             $Requirements->cv  = $path2;
+
 
             $Requirements->save();
         return response()->json(['Requirements'=>$Requirements]);

@@ -8,12 +8,24 @@
             </div>
         </div>
 
+        @if(Session::has('success'))
+        <div class="alert alert-success">
+            {{ Session::get('success') }}
+        </div>
+    @endif
+
+    @if(Session::has('error'))
+        <div class="alert alert-danger">
+            {{ Session::get('error') }}
+        </div>
+    @endif
+
         <div class="row">
             @foreach ($supervisors as $supervisor)
             <div class="col-md-4 col-12 mb-4">
                 <div class="card position-relative">
                     <div class="card-body">
-                            <img src="{{ asset('images/11.png') }}" class="supervisor-image">
+                            <img src="{{ asset('images/المشرفين.png') }}" class="supervisor-image">
                             <h5 class="card-title">{{ $supervisor->name }}</h5> 
                             <div class="supervisor-info-box">
                             <p class="card-text"><strong>الايميل :</strong> {{ $supervisor->email }}</p> </div>
@@ -27,14 +39,18 @@
                             <p class="card-text"><strong>مدير فرع :</strong> غير محدد</p></div>
                             @endif
                             <div class="mt-4 d-flex justify-content-center">
-                                <button type="button" class="btn edit-button me-2" data-bs-toggle="modal" data-bs-target="#editSupervisorModal"
-                                data-id="{{ $supervisor->id }}" data-name="{{ $supervisor->name }}">
-                                <i class="bi bi-pencil"></i> 
-                            </button>
-                            <button type="button" class="btn delete-button" style="margin-top: -34px" data-bs-toggle="modal" data-bs-target="#deleteSupervisorModal"
-                                data-id="{{ $supervisor->id }}" data-name="{{ $supervisor->name }}">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                                <button type="button" class="btn edit-button me-2">
+                                    <a href="{{ route('supervisors.edit', $supervisor->id) }}" style="text-decoration: none; color: inherit;">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                </button>
+                            <form action="{{ route('supervisors.destroy', $supervisor->id) }}" method="POST" onsubmit="return confirmDelete(event)">
+                                @csrf
+                                @method('DELETE') <!-- تعديل هنا ليكون DELETE -->
+                                <button type="submit" class="btn delete-button">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>                            
                             </div>
                         </div>
                     </div>
@@ -48,41 +64,31 @@
      <a href="{{ route('supervisors.create') }}" class="btn-add-supervisor">
         <i class="bi bi-plus" style="color: black"></i>
     </a>
-    
-  <!-- Modal لحذف المشرف -->
-<div class="modal fade" id="deleteSupervisorModal" tabindex="-1" aria-labelledby="deleteSupervisorModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style=" background: linear-gradient(135deg, #f0f8ff, #e6e6fa, #dcdcdc);">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <i class="bi bi-trash" style="font-size: 2rem;"></i>
-                <h5 class="mt-3">هل متأكد من حذف المشرف (<span id="supervisor-name"></span>)؟</h5>
-                <form id="deleteSupervisorForm" action="{{ route('supervisors.destroy', ['supervisor' => 0]) }}" method="POST">
-                    @csrf
-                    @method('Post')
-                    <input type="hidden" name="supervisor_id" id="supervisor-id">
-                    <div class="mt-4 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-danger me-3 px-4">تأكيد</button>
-                        {{-- <button type="button" class="bbtn btn-outline-secondary px-4" data-bs-dismiss="modal">إلغاء</button> --}}
-                    </div>
-                </form>
+  
+ <!-- Bootstrap Bundle with Popper -->
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
-                @if (Session::has('success'))
-                    <div class="alert alert-success mt-3" role="alert">
-                        {{ Session::get('success') }}
-                    </div>
-                @endif
+ <!-- jQuery -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                @if (Session::has('error'))
-                    <div class="alert alert-danger mt-3" role="alert">
-                        {{ Session::get('error') }}
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
-</div>
+ <!-- SweetAlert -->
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+ <script type="text/javascript">
+    function confirmDelete(event) {
+        event.preventDefault();
+        var form = event.target;
+        swal({
+            title: "هل متأكد من حذف المشرف؟",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                form.submit();
+            }
+        });
+    }
+    </script>
 
 @endsection

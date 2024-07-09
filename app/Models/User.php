@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use PhpParser\Node\Stmt\Block;
 
 class User extends Authenticatable
 {
@@ -21,8 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'phone',
-        'role_id'
+        'role_id',
+        'phone'
     ];
 
     /**
@@ -94,6 +95,12 @@ class User extends Authenticatable
         return $this->hasOne(Section::class, 'admin_id');
     }
 
+    public function Walet()
+    {
+        return $this->hasOne(Walet_user::class, 'user_id');
+    }
+
+
     public function ship_goods_request()
     {
         return $this->hasMany(Ship_Goods_Request::class, 'user_id');
@@ -107,5 +114,31 @@ class User extends Authenticatable
     public function trip_request()
     {
         return $this->hasMany(Trip_Request::class, 'user_id');
+    }
+
+    public function black()
+    {
+        return $this->hasMany(Black_List::class, 'admin_id');
+    }
+
+    public function black_l()
+    {
+        return $this->hasMany(Black_List::class, 'user_id');
+    }
+
+
+    public function block()
+    {
+        return $this->hasMany(Block_List::class, 'admin_id');
+    }
+
+    public function block_l()
+    {
+        return $this->hasMany(Block_List::class, 'user_id');
+    }
+
+    public function rate()
+    {
+        return $this->hasMany(User::class, 'user_id');
     }
 }

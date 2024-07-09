@@ -22,6 +22,7 @@ class SectionSeeder extends Seeder
         Section::create(['admin_id'=>5,'address_id'=>'4' ,'time_opened'=>'00:00:00','time_closed'=>'12:00:00', 'id'=> 4]);
 
 
+
     }
 
     // static function sed($name , $opened , $closed , $admin)

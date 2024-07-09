@@ -13,7 +13,7 @@ class Trip_Request extends Model
     protected $fillable = [
         'user_id',
         'trip_id',
-        'start_point',
+        'start_point',  
     ];
 
     /**

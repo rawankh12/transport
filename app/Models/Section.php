@@ -56,4 +56,19 @@ class Section extends Model
     {
         return $this->hasMany(Trips::class, 'section_id');
     }
+
+    public function resignation()
+    {
+        return $this->hasMany(Resignation::class, 'section_id');
+    }
+
+    /**
+     * Get the user associated with the Section
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function Walet_s()
+    {
+        return $this->hasOne(Walet_section::class, 'section_id');
+    }
 }

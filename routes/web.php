@@ -21,8 +21,8 @@ Route::get('/', function () {
 */
 
 Route::get('/', function () {
-    return view('dashboard');
-})->name('admin.dashboard');
+    return redirect()->route('login');
+});
 
 
 Route::get('/orders', function () {
@@ -32,14 +32,16 @@ Route::get('/orders', function () {
 Auth::routes();
 
 Route::get('admin/overview/data', [StatisticController::class, 'getOverviewData'])->name('admin.overview.data');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/supervisors', [SupervisorController::class, 'index'])->name('supervisors.index');
 Route::get('/supervisors/create', [SupervisorController::class,'create'])->name('supervisors.create');
 Route::post('/supervisors', [SupervisorController::class, 'store'])->name('supervisors.store');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::post('/supervisors/{supervisor}', [SupervisorController::class, 'destroy'])->name('supervisors.destroy');
+Route::delete('/supervisors/{id}', [SupervisorController::class, 'destroy'])->name('supervisors.destroy');
+Route::get('/supervisors/{id}/edit',[SupervisorController::class, 'edit'])->name('supervisors.edit');
+Route::put('/supervisors/{id}', [SupervisorController::class, 'update'])->name('supervisors.update');
 Route::get('/sections', [SectionController::class, 'index'])->name('sections.index');
 Route::get('/sections/create', [SectionController::class,'create'])->name('sections.create');
 Route::post('/sections', [SectionController::class, 'store'])->name('sections.store');
-Route::post('/sections/{section}', [SectionController::class, 'destroy'])->name('sections.destroy');
+Route::delete('/sections/{section}', [SectionController::class, 'destroy'])->name('sections.destroy');
 Route::get('/sections/{id}/edit',[SectionController::class, 'edit'])->name('sections.edit');
-Route::post('/sections/{id}', [SectionController::class, 'update'])->name('sections.update');
+Route::put('/sections/{id}', [SectionController::class, 'update'])->name('sections.update');

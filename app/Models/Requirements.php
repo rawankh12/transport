@@ -16,7 +16,8 @@ class  Requirements extends Model
         'photo_of_univercity_degree',
         'driving_licence',
         'description',
-        'cv'
+        'cv',
+        'place'
     ];
 
     /**

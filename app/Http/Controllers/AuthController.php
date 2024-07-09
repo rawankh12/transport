@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Walet_user;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,10 @@ class AuthController extends Controller
                 'phone' => $request->phone,
                 'confirm_password' => $request->confirm_password,
                 'role_id'=> $request->role_id
+            ]);
+            Walet_user::insert([
+                'user_id' => $user->id,
+                'amount' => 0
             ]);
             return response()->json([
                 'status' => true,
@@ -95,7 +100,15 @@ class AuthController extends Controller
     }
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        Auth::user()->tokens()->delete();
         return response()->json(['the user logged out']);
+    }
+
+    public function deleted()
+    {
+        Auth::user()->tokens()->delete();
+        $user =User::find(Auth::user()->id);
+        $user->delete();
+        return response()->json(['the user delete his account']);
     }
 }

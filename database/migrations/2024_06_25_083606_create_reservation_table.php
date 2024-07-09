@@ -16,7 +16,6 @@ return new class extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('trip_id')->unsigned();
             $table->string('image_identity');
-            $table->bigInteger('pay');
             $table->string('attachments');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('trip_id')->references('id')->on('trips')->onDelete('cascade')->onUpdate('cascade');

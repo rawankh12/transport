@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('type_transporting', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('name_t');
             $table->timestamps();
         });
     }

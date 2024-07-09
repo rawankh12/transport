@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Complaint;
+use App\Models\Trips;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ComplaintController extends Controller
@@ -14,8 +16,16 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        $Complaint = Complaint::all();
-        return response()->json(["Complaint"=>$Complaint]);
+        // $Complaint = Complaint::all();
+        // return response()->json(["Complaint"=>$Complaint]);
+
+        $Complaint = DB::table('complaint')->
+        join('trips' , 'trips.id' , 'complaint.trip_id')-> join('section' , 'section.id' , 'trips.section_id')->join('transporting' , 'transporting.id', 'trips.transport_id')
+        ->join('type_transporting' , 'type_transporting.id' , 'transporting.type_tra_id')->
+        join('address' , 'address.id' , 'section.address_id')
+        ->get(['name' , 'section_end' , 'date' , 'time' ,'number', 'type_transporting.name' , 'description' ]);
+
+        return response()->json(["Complaint"=> $Complaint ]);
     }
 
     /**
@@ -37,6 +47,8 @@ class ComplaintController extends Controller
             'description' => $request->description
         ]);
 
+        $t = Trips::where('id' , $request->trip_id)->get();
+
       return response()->json([
         'status'=>  true,
         'Complaint'=>  $Complaint
@@ -56,9 +68,9 @@ class ComplaintController extends Controller
      */
     public function show(Request $request)
     {
-        $Transporting = Complaint::where('id' , $request->id)->get();
+        $Complaint = Complaint::where('id' , $request->id)->get('complaint');
         return response()->json([
-            $Transporting
+            $Complaint
         ]);
     }
 

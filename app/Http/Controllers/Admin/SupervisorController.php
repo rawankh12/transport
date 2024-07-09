@@ -9,16 +9,14 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Address;
 use App\Models\User;
 use App\Models\Section;
+use App\http\Requests\validationrequest;
 
 class SupervisorController extends Controller
 {
     public function index()
     {
-        // Fetch all supervisors from the database
-        $supervisors = User::where('role_id', '=' ,'2')->get(); // Adjust the condition as per your actual user role setup
-        // Fetch the sections and related addresses
+        $supervisors = User::where('role_id', '=' ,'2')->get(); 
         $supervisors->load('section.address');
-
         return view('supervisor.index', compact('supervisors'));
     }
 
@@ -30,20 +28,14 @@ class SupervisorController extends Controller
 
     public function create()
     {
-        return view('supervisor.createsupervisor');
+        $supervisor = Address::get();
+        return view('supervisor.createsupervisor', compact('supervisor'));
     }
 
-    public function store(Request $request)
+    public function store(validationrequest $request)
     {
-       // $addressid = Address::get('address->id');
-        // Validate the incoming request data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email|max:255',
-            'password' => 'required|string|min:6',
-            'phone' => 'required|string',
-            // 'address' => 'required|string',
-        ]);
+    
+        // $request->validated();
 
         try {
             // Create a new user record
@@ -65,20 +57,50 @@ class SupervisorController extends Controller
         }
 
         // Redirect back to where the form was submitted from
-        return redirect()->back();
+        return redirect()->route('supervisors.index');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        // Find the supervisor by ID
-        $supervisor = User::findOrFail($id); // Assuming 'User' is your model
+        $supervisor = User::findOrFail($id); 
+    
+        if ($supervisor->section) {
+            return redirect()->route('supervisors.index')->with('error', 'لا يمكنك حذف هذا المشرف لأنه مرتبط بفرع. استبدله بآخر ثم احذفه.');
+        } else {
+            $supervisor->delete();
+            return redirect()->route('supervisors.index')->with('success', 'تم حذف المشرف بنجاح.');
+        }
+    }
 
-        // Delete the supervisor record
-        $supervisor->delete();
+    public function edit($id)
+    {
+        $supervisor = User::findOrFail($id);
+        return view('supervisor.updatesupervisor', compact('supervisor'));
+    }
 
-        // Redirect to the supervisors index page with success message
-        Session::flash('success', 'تم حذف المشرف بنجاح.');
-        return redirect()->route('supervisors.index');
+    public function update(ValidationRequest $request, $id)
+    {
+        $supervisor = User::findOrFail($id);
+
+        try {
+            // تحديث بيانات المشرف
+            $supervisor->name = $request->name;
+            $supervisor->email = $request->email;
+            if ($request->password) {
+                $supervisor->password = Hash::make($request->password);
+            }
+            $supervisor->phone = $request->phone;
+            $supervisor->save();
+
+             // رسالة نجاح
+             Session::flash('success', 'تم تحديث المشرف بنجاح.');
+            } catch (\Exception $e) {
+                // رسالة خطأ
+                Session::flash('error', 'حدث خطأ أثناء تحديث المشرف: ' . $e->getMessage());
+            }
+            // رسالة خطأ
+            return redirect()->route('supervisors.index');
+        
     }
 
 }

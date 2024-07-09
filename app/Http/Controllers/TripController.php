@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Avg_Rate;
+use App\Models\Price_Trip;
 use App\Models\Reservation;
 use App\Models\Section;
 use App\Models\Trips;
@@ -25,7 +27,11 @@ class TripController extends Controller
      */
     public function index()
     {
-        $Trips = Trips::where('type_id' , 2)->get();
+        $Trips = DB::table('trips')->where('type_id' , 2)->
+        join('section' , 'section.id' , 'trips.section_id')->join('transporting' , 'transporting.id', 'trips.transport_id')
+        ->join('type_transporting' , 'type_transporting.id' , 'transporting.type_tra_id')->
+        join('address' , 'address.id' , 'section.address_id')->join('avg_rate' , 'avg_rate.trip_id' , 'trips.id')->join('price_trip' , 'price_trip.trip_id' , 'trips.id')
+        ->get(['address.name' , 'section_end' , 'date' , 'time' , 'num_seat' , 'name_t' ,'avg_rate' ,'price' ]);
         return response()->json(['Trips' => $Trips]);
     }
 
@@ -34,6 +40,7 @@ class TripController extends Controller
      */
     public function create(Request $request)
     {
+
         $validate = Validator::make($request->all(),
         [
           'section_end'=>'required|string',
@@ -48,11 +55,20 @@ class TripController extends Controller
 
             'section_id' => $request->section_id,
             'transport_id' => $request->transport_id,
-            'type_id' => $request->type_id,
+            'type_id' => 2,
             'section_end' => $request->section_end,
             'date' => $request->date,
             'time' => $request->time,
             'num_seat' => $request->num_seat
+        ]);
+
+        Avg_Rate::insert([
+            'trip_id' => $Trips->id,
+            'avg_rate' => 0
+        ]);
+        Price_Trip::insert([
+            'trip_id' => $Trips->id,
+            'price' => $request->price
         ]);
 
       return response()->json([
@@ -66,11 +82,19 @@ class TripController extends Controller
      */
     public function trip_res()
     {
-        $res = Reservation::where('user_id' , Auth::user()->id)->get('trip_id');
-        $trip = Trips::whereIn('id' , $res)->get();
-        return response()->json([
-            $trip
-        ]);
+        // $res = Reservation::where('user_id' , Auth::user()->id)->get('trip_id');
+        // $trip = Trips::whereIn('id' , $res)->get();
+        // return response()->json([
+        //     $trip
+        // ]);
+
+        $Trips = DB::table('trips')->where('type_id' , 2)->
+        join('section' , 'section.id' , 'trips.section_id')->join('transporting' , 'transporting.id', 'trips.transport_id')
+        ->join('type_transporting' , 'type_transporting.id' , 'transporting.type_tra_id')->
+        join('address' , 'address.id' , 'section.address_id')->join('avg_rate' , 'avg_rate.trip_id' , 'trips.id')->join('price_trip' , 'price_trip.trip_id' , 'trips.id')
+        ->join('reservation' , 'reservation.trip_id' , 'trips.id')
+        ->get(['address.name' , 'section_end' , 'date' , 'time' , 'num_seat' , 'name_t' ,'avg_rate' ,'price' ,'attachments']);
+        return response()->json(['Trips' => $Trips]);
 
     }
 
@@ -81,10 +105,17 @@ class TripController extends Controller
      */
     public function show(Request $request)
     {
-        $scetion = Trips::where('id' , $request->id)->get();
-        return response()->json([
-            $scetion
-        ]);
+        //  $Trips = Trips::where('id' , $request->id)->get();
+        // return response()->json([
+        //     $Trips
+        // ]);
+
+        $Trips = DB::table('trips')->where('type_id' , 2)->where('trips.id' , $request->id)->
+        join('section' , 'section.id' , 'trips.section_id')->join('transporting' , 'transporting.id', 'trips.transport_id')
+        ->join('type_transporting' , 'type_transporting.id' , 'transporting.type_tra_id')->
+        join('address' , 'address.id' , 'section.address_id')->join('avg_rate' , 'avg_rate.trip_id' , 'trips.id')->join('price_trip' , 'price_trip.trip_id' , 'trips.id')
+        ->get(['address.name' , 'section_end' , 'date' , 'time' , 'num_seat' , 'name_t' ,'avg_rate' ,'price' ]);
+        return response()->json(['Trips' => $Trips]);
     }
 
     /**

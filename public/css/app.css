@@ -24,6 +24,23 @@ body {
     font-family: 'Poppins', sans-serif;
     direction: rtl; /* إضافة اتجاه النص من اليمين إلى اليسار */  
 }
+.swal-title {
+    color: #060707; /* لون العنوان */
+    font-size: 20px; /* حجم الخط */
+    font-weight: bold; /* سماكة الخط */
+    /* أي أنماط أخرى ترغب في تطبيقها */
+}
+
+.swal-button.ok {
+    background-color: #ff0000; /* لون الخلفية للزر */
+    color: #fff; /* لون النص في الزر */
+    /* أي أنماط أخرى ترغب في تطبيقها */
+}
+.swal-button.cancle {
+    background-color: #171515; /* لون الخلفية للزر */
+    color: #fff; /* لون النص في الزر */
+    /* أي أنماط أخرى ترغب في تطبيقها */
+}
 
 /* هيدر */
 .header {
@@ -86,6 +103,8 @@ body {
     justify-content: center;
     align-items: center;
     transition: color 0.3s ease; /* انتقال سلس للون */ 
+    margin-top: -6px;
+    margin-bottom: 15px;
 }
 
 .edit-button {
@@ -98,8 +117,8 @@ body {
     justify-content: center;
     align-items: center;
     transition: color 0.3s ease; /* انتقال سلس للون */ 
-    margin-top: -25px;
-    margin-bottom: 10px;
+    margin-top: -6px;
+    margin-bottom: 15px;
 }
 
 
@@ -171,7 +190,7 @@ body {
     justify-content: space-between; /* لضمان توزيع المساحة بين العناصر بالتساوي */
 }
 
-.supervisor-image {
+.supervisor-image , .branch-image {
     width: 100px; /* يمكنك ضبط العرض حسب الحاجة */
     height: 100px; /* يمكنك ضبط الارتفاع حسب الحاجة */
     border-radius: 50%;
@@ -225,7 +244,7 @@ body {
     }
 }
 
-.btn-add-supervisor {
+.btn-add-supervisor, .btn-add-branch {
     position: fixed;
     bottom: 20px;
     left: 20px;
@@ -245,7 +264,7 @@ body {
     
 }
 
-.btn-add-supervisor:hover {
+.btn-add-supervisor:hover , .btn-add-branch:hover{
     /* background-color: blue; */
     /* color: white; */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -253,33 +272,6 @@ body {
 
 .btn-add-supervisor .bi {
     font-size: 1.8em; /* لضبط حجم الأيقونة */
-}
-
-
-.btn-add-branch {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: white;
-    /* color: blue; */
-    border: 2px solid blue;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
-    z-index: 9999; /* تأكد من أن الزر فوق جميع العناصر الأخرى */
-    
-}
-
-.btn-add-branch:hover {
-    /* background-color: blue; */
-    /* color: white; */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .btn-add-branch .bi {
@@ -439,40 +431,6 @@ a.sidebar-link:hover {
     position: relative;
 }
 
-/* #sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
-    position: absolute;
-    top: 0;
-    right: 70px; 
-    background-color: hsl(212, 16%, 69%);
-    padding: 0;
-    min-width: 15rem;
-    display: none;
-} */
-/* 
-#sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown {
-    display: block;
-    max-height: 15em;
-    width: 100%;
-    opacity: 1;
-} */
-
-/* #sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
-    border: solid;
-    border-width: 0 .075rem .075rem 0;
-    content: "";
-    display: inline-block;
-    padding: 2px;
-    position: absolute;
-    left: 1.5rem; 
-    top: 1.4rem;
-    transform: rotate(-135deg);
-    transition: all .2s ease-out;
-} */
-
-/* #sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
-    transform: rotate(45deg);
-    transition: all .2s ease-out;
-} */
 .sidebar-link.active {
     /* background-color: #648faa;; */
     color: rgb(106, 176, 195) !important;

@@ -36,6 +36,17 @@ class Trips extends Model
         return $this->hasMany(Reservation::class, 'trip_id');
     }
 
+    public function rate()
+    {
+        return $this->hasMany(Rate::class, 'trip_id');
+    }
+
+    public function avg_rate()
+    {
+        return $this->hasOne(Avg_Rate::class, 'trip_id');
+    }
+
+
     // public function ship_goods_request()
     // {
     //     return $this->hasMany(Ship_Goods_Request::class, 'trip_id');
@@ -46,6 +57,10 @@ class Trips extends Model
         return $this->hasOne(Trip_Request::class, 'trip_id');
     }
 
+    public function PRICE_T()
+    {
+        return $this->hasOne(Price_Trip::class, 'trip_id');
+    }
     /**
      * Get the user that owns the Trips
      *

@@ -1,5 +1,5 @@
 
-        <aside id="sidebar">
+        <aside id="sidebar" class='light-mode'>
             <div class="d-flex">
                 <button id="toggle-btn" type="button">
                     <i class="lni lni-grid-alt"></i>
@@ -17,7 +17,7 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
                     <a href="{{ route('supervisors.index') }}" class="sidebar-link {{ request()->routeIs('supervisors.index') ? 'active' : '' }}">
-                        <i class="lni lni-users"></i>
+                        <i class="lni lni-consulting"></i>
                         <span>المشرفين</span>
                     </a>
                     <ul class="sidebar-submenu">
@@ -27,6 +27,11 @@
                                 <span>اضافة مشرف</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link {{ request()->routeIs('supervisors.edit') ? 'active' : '' }}">
+                                <span>تعديل مشرف</span>
+                            </a>
+                        </li>                        
                     </ul>
                 </li>
                 <li class="sidebar-item">
@@ -41,14 +46,31 @@
                                 <span>اضافة فرع</span>
                             </a>
                         </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link {{ request()->routeIs('sections.edit') ? 'active' : '' }}">
+                                <span>تعديل فرع</span>
+                            </a>
+                        </li>     
                     </ul>
-                </li>                
+                </li>  
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link {{ request()->is('employee') ? 'active' : '' }}">
+                        <i class="lni lni-user"></i>
+                        <span>الموظفين</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link {{ request()->is('users') ? 'active' : '' }}">
+                        <i class="lni lni-users"></i>
+                        <span>المستخدمين</span>
+                    </a>
+                </li>              
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link {{ request()->is('requests*') ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#requerment" aria-expanded="false" aria-controls="requerment">
                         <i class="lni lni-text-align-justify"></i>
                         <span class="sidebar-text">الطلبات</span>
                     </a>
-                    <ul id="requerment" class="sidebar-submenu collapse {{ request()->is('requests*') ? 'show' : '' }}" >
+                    <ul class="sidebar-submenu">
                         <li class="sidebar-item">
                             <a href="#" class="sidebar-link {{ request()->is('requests/employment') ? 'active' : '' }}">
                                 {{-- <i class="lni lni-chevron-right"></i> --}}
@@ -56,21 +78,9 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link {{ request()->is('requests/add-trip') ? 'active' : '' }}">
+                            <a href="#" class="sidebar-link {{ request()->is('requests/reject') ? 'active' : '' }}">
                                 {{-- <i class="lni lni-chevron-right"></i> --}}
-                                <span class="sidebar-text">طلبات اضافة رحلة</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link {{ request()->is('requests/edit-trip') ? 'active' : '' }}">
-                                {{-- <i class="lni lni-chevron-right"></i> --}}
-                                <span class="sidebar-text">طلبات تعديل رحلة</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link {{ request()->is('requests/offers-discounts') ? 'active' : '' }}">
-                                {{-- <i class="lni lni-chevron-right"></i> --}}
-                                <span class="sidebar-text">طلبات العروض والحسومات</span>
+                                <span class="sidebar-text">طلبات الاستقالة</span>
                             </a>
                         </li>
                     </ul>
@@ -84,8 +94,8 @@
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link {{ request()->is('logout') ? 'active' : '' }}">
-                        <i class="lni lni-exit"></i>
-                        <span>تسجيل خروج</span>
+                        <i class="lni lni-warning"></i>
+                        <span>قائمة الشكاوي</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -97,7 +107,7 @@
             </ul>
             <div class="sidebar-footer">
                 <a href="#" class="sidebar-link">
-                    <span>-------</span>
+                    <span style="color: black solid">-------</span>
                 </a>
             </div>
         </aside>
