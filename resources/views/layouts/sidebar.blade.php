@@ -52,6 +52,25 @@
                             </a>
                         </li>     
                     </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link {{ request()->is('transport') ? 'active' : '' }}">
+                        <i class="lni lni-car-alt"></i>
+                        <span>وسائل النقل</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                        <li class="sidebar-item">
+                            <a href="{{ route('sections.create') }}" class="sidebar-link {{ request()->routeIs('transport.create') ? 'active' : '' }}">
+                                {{-- <i class="lni lni-plus" ></i> --}}
+                                <span>اضافة وسيلة نقل</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link {{ request()->routeIs('transport.edit') ? 'active' : '' }}">
+                                <span>تعديل وسيلة نقل</span>
+                            </a>
+                        </li>     
+                    </ul>
                 </li>  
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link {{ request()->is('employee') ? 'active' : '' }}">
